@@ -1,4 +1,3 @@
-#숨바꼭질
 from collections import deque
 
 dx = [-1, 1, 0, 0]
