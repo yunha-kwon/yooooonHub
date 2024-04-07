@@ -1,5 +1,6 @@
 import sys
 input = sys.stdin.readline
+from collections import deque
 
 # 8방 (좌, 좌상, 상, 우상, 우, 우하, 하, 좌하) : 순서 중요!
 dx = [0,-1,-1,-1,0,1,1,1]
@@ -9,14 +10,15 @@ N, M = map(int, input().split())
 arr = [list(map(int, input().split())) for _ in range(N)]
 move = [list(map(int, input().split())) for _ in range(M)]
 
-cloud = [(N-1, 0), (N-1, 1), (N-2, 0), (N-2, 1)]
+cloud = deque([(N-1, 0), (N-1, 1), (N-2, 0), (N-2, 1)])
+#cloud = [(N-1, 0), (N-1, 1), (N-2, 0), (N-2, 1)]
 
 # 1, 2, 3단계
 for m in move:
     d, s = m[0] - 1, m[1] % N # 배열 범위 넘는 곳 % 연산으로 처리
-    cloud_removed = [] #구름이 있다가 없어진 곳 기억해두는 용 리스트
+    cloud_removed = deque() #구름이 있다가 없어진 곳 기억해두는 용 리스트
     while cloud:
-        x, y = cloud.pop()
+        x, y = cloud.popleft()
         nx, ny = (x + dx[d] * s) % N, (y + dy[d] * s) % N
         arr[nx][ny] += 1
         cloud_removed.append((nx, ny))
@@ -45,5 +47,5 @@ for m in move:
 total = 0
 for lst in arr:
     total += sum(lst)
-    
+
 print(total)
